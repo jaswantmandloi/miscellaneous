@@ -1,0 +1,64 @@
+//https://nextjs.org/docs/advanced-features/customizing-babel-config
+//"pre-commit": "lint-staged",
+      //"pre-push": "cross-env NODE_ENV=test npm-run-all test:pre-push"
+
+{
+    "presets": [
+        "next/babel"
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-optional-chaining",
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "./"
+                ],
+                "alias": {
+                    "~": "./",
+                    "config": "./config",
+                    "components": "./components",
+                    "shared": [
+                        "./components/shared"
+                    ],
+                    "@redux": "./redux",
+                    "hoc": "./components/hoc"
+                }
+            }
+        ]
+    ],
+    "env": {
+        "test": {
+            "presets": [
+                [
+                    "next/babel",
+                    {
+                        "styled-jsx": {
+                            "babel-test": true
+                        }
+                    }
+                ]
+            ],
+            "plugins": [
+                "babel-plugin-dynamic-import-node" // Added to allow dynamic imports in node.
+            ]
+        },
+        "production": {
+            "plugins": [
+                [
+                    "react-remove-properties",
+                    {
+                        "properties": [
+                            "data-test"
+                        ]
+                    }
+                ]
+            ]
+        }
+    }
+}
+
+
+
+
+HUSKY_DEBUG=1 npm install husky --save-dev
